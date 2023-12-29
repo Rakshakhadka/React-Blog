@@ -1,6 +1,46 @@
-.posts {
-    flex: 9;
+.gallery {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
+    padding: 16px;
+  }
+  
+  .photo {
+    border: 1px solid #ddd;
+    padding: 16px;
+    text-align: center;
+  }
+  
+  .photo img {
+    width: 100%;
+    height: auto;
+    border-bottom: 1px solid #ddd;
+  }
+  
+  .photo h3 {
+    margin-top: 8px;
+    font-size: 16px;
+    color: #333;
+  }
+  
+  .load-more-container {
     display: flex;
-    flex-wrap: wrap;
-    margin: 20px;
-}
+    justify-content: center;
+    margin-top: 16px;
+  }
+  
+  .load-more {
+    background-color: #3498db;
+    color: #fff;
+    padding: 10px 20px;
+    margin-bottom:3%;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+  }
+  
+  .load-more:hover {
+    background-color: #2980b9;
+  }
+  

@@ -1,44 +1,55 @@
 import React, { useState, useEffect } from 'react';
+import './posts.css';
 
-export default function Posts() {
-  const [posts, setPosts] = useState([]);
+const apiUrl = 'https://jsonplaceholder.typicode.com/photos';
+
+export default function Gallery() {
+  const [photos, setPhotos] = useState([]);
+  const [visiblePhotos, setVisiblePhotos] = useState(9);
 
   useEffect(() => {
-    // Function to fetch posts from the API
-    const fetchPosts = async () => {
+    const fetchPhotos = async () => {
       try {
-        // Replace 'https://api.example.com/posts' with the actual API endpoint
-        const response = await fetch('https://dummy.restapiexample.com/api/v1/employees');
-        
+        const response = await fetch(apiUrl);
+
         if (!response.ok) {
+          console.error('Error response from server:', response);
           throw new Error('Network response was not ok');
         }
 
         const data = await response.json();
-        console.log(data);
-        setPosts(data); // Update the state with the fetched posts
+        console.log('Data:', data);
+        setPhotos(data);
       } catch (error) {
-        console.error('Error fetching posts:', error.message);
+        console.error('Error fetching photos:', error.message);
       }
     };
 
-    // Call the fetchPosts function when the component mounts
-    fetchPosts();
-  }, []); // Empty dependency array means this effect runs once after the initial render
+    fetchPhotos();
+  }, []);
+
+  const loadMore = () => {
+    setVisiblePhotos((prevVisiblePhotos) => prevVisiblePhotos + 9);
+  };
 
   return (
-    <div className="posts">
-      {/* Map over the posts and display them */}
-      {posts.map((post) => (
-        <Post key={post.id} img={post.imageUrl} />
-      ))}
+    <div>
+      <div className="gallery">
+        {photos.slice(0, visiblePhotos).map((photo) => (
+          <div key={photo.id} className="photo">
+            <img src={photo.thumbnailUrl} alt={photo.title} />
+            <h3>{photo.title}</h3>
+          </div>
+        ))}
+      </div>
+
+      {visiblePhotos < photos.length && (
+        <div className="load-more-container">
+          <button className="load-more" onClick={loadMore}>
+            Load More
+          </button>
+        </div>
+      )}
     </div>
   );
 }
-
-// Assume you have a Post component
-const Post = ({ img }) => (
-  <div className="post">
-    <img src={img} alt="Post" />
-  </div>
-);
